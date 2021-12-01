@@ -1,0 +1,57 @@
+import discord
+import random
+
+TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.YR1xvQ.CMGaozkt7gJirLw0E31KpuGhOPA"
+
+client = discord.Client()
+
+@client.event
+async def on_ready():
+    print("We have logged in as {0.user}".format(client))
+
+@client.event
+async def on_message(message):
+    username = str(message.author).split('#')[0]
+    user_message = str(message.content)
+    channel = str(message.channel.name)
+    print(f"{username}: {user_message} ({channel})")
+
+    if message.author == client.user:
+        return
+    if user_message.lower() == "hi":
+        await message.channel.send(f"ok")
+        return
+    elif user_message.lower() == "bye":
+        await message.channel.send(f"xD")
+        return
+    elif user_message.lower() == "ok":
+        await message.channel.send(f"hi")
+        return
+    elif "i just" in user_message.lower():
+        await message.channel.send(f"first time?")
+        return
+    elif "<:OMEGALUL:775515868410544149>" in user_message:
+        await message.reply(f"SHEESH!", mention_author = False)
+    elif "<a:donowall:792236705478475837>" in user_message:
+        await message.reply(f"I should've voted you for meanest person", mention_author = False)
+    elif "four" in user_message.lower():
+        await message.channel.send(f"fo?")
+
+    if message.channel.name == "minichuffy":
+        if user_message.lower() == "!wysi":
+            response = f"{username} rolled {random.randint(1, 1000)}"
+            if response == f"{username} rolled 727":
+                response = f"{username} rolled 727!!! https://tenor.com/view/aireu-727-wysi-when-you-see-it-osu-gif-21274243"
+            await message.channel.send(response)
+            return
+        elif "Recent osu! Standard Play for" in user_message:
+            rand = random.randint(1, 3)
+            if rand == 1:
+                await message.channel.send(f"WTF, you're insane????")
+
+    if message.channel.name == "the-mgg-channel-and-no-mic":
+        if "thank you" in user_message.lower() or "thanks" in user_message.lower():
+            await message.channel.send(f"that wasn't for you but ok")
+
+
+client.run(TOKEN)
