@@ -1,13 +1,18 @@
 import discord
 import random
+from discord.ext import commands
 
 TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.YR1xvQ.CMGaozkt7gJirLw0E31KpuGhOPA"
 
-client = discord.Client()
+client = commands.Bot(command_prefix="!")
+# client = discord.Client()
+# bot = commands.Bot(command_prefix=".")
+
 
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
+
 
 @client.event
 async def on_message(message):
@@ -36,6 +41,10 @@ async def on_message(message):
         await message.reply(f"I should've voted you for meanest person", mention_author = False)
     elif "four" in user_message.lower():
         await message.channel.send(f"fo?")
+    elif "fo?" in user_message.lower():
+        await message.channel.send(f"https://imgur.com/a/IQpgMU9")
+    elif "devour" in user_message.lower():
+        await message.reply(f"https://tenor.com/view/lottery-loser-rat-mouse-gif-12761681", mention_author = False)
 
     if message.channel.name == "minichuffy":
         if user_message.lower() == "!wysi":
@@ -48,10 +57,28 @@ async def on_message(message):
             rand = random.randint(1, 3)
             if rand == 1:
                 await message.channel.send(f"WTF, you're insane????")
+        elif "choke" in user_message.lower():
+            await message.channel.send(f"https://tenor.com/view/gene-issue-gif-22947786")
 
     if message.channel.name == "the-mgg-channel-and-no-mic":
         if "thank you" in user_message.lower() or "thanks" in user_message.lower():
             await message.channel.send(f"that wasn't for you but ok")
 
 
+@client.command()
+async def join(message):
+    channel = message.author.voice.channel
+    await channel.connect()
+
+
+@client.command()
+async def leave(message):
+    await message.voice_client.disconnect()
+
+
+@client.command()
+async def ping(ctx):
+    await ctx.send("Pong!")
+
+# bot.run(TOKEN)
 client.run(TOKEN)
