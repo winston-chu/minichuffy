@@ -37,7 +37,7 @@ async def on_message(message):
         return
     elif "<:OMEGALUL:775515868410544149>" in user_message:
         await message.reply(f"SHEESH!", mention_author = False)
-    elif "<a:donowall:792236705478475837>" in user_message:
+    elif "donowall" in user_message.lower():
         await message.reply(f"I should've voted you for meanest person", mention_author = False)
     elif "four" in user_message.lower():
         await message.channel.send(f"fo?")
