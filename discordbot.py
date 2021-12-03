@@ -45,6 +45,10 @@ async def on_message(message):
         await message.channel.send(f"https://imgur.com/a/IQpgMU9")
     elif "devour" in user_message.lower():
         await message.reply(f"https://tenor.com/view/lottery-loser-rat-mouse-gif-12761681", mention_author = False)
+    elif "val" in user_message.lower():
+        await message.reply(f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png", mention_author = False)
+    elif "ganyu" in user_message.lower():
+        await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author = False)
 
     if message.channel.name == "minichuffy":
         if user_message.lower() == "!wysi":
