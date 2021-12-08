@@ -49,7 +49,7 @@ async def on_message(message):
         await message.reply(f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png", mention_author = False)
     elif "ganyu" in user_message.lower():
         await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author = False)
-    elif "@poopsock#9879" in user_message:
+    elif "@SRT AZAZEL" in user_message:
         await message.channel.send(f"https://tenor.com/view/markiplier-funny-meme-what-gif-22548813")
 
         if "Recent osu! Standard Play for" in user_message:
