@@ -1,5 +1,6 @@
 import discord
 import random
+import time
 from discord.ext import commands
 
 TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.YR1xvQ.CMGaozkt7gJirLw0E31KpuGhOPA"
@@ -18,8 +19,10 @@ async def on_ready():
 async def on_message(message):
     username = str(message.author).split('#')[0]
     user_message = str(message.content)
+    lenMessage = len(user_message)
     channel = str(message.channel.name)
     print(f"{username}: {user_message} ({channel})")
+    mention = f'<@!{username}>'
 
     if message.author == client.user:
         return
@@ -49,8 +52,17 @@ async def on_message(message):
         await message.reply(f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png", mention_author = False)
     elif "ganyu" in user_message.lower():
         await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author = False)
-    elif "@SRT AZAZEL" in user_message:
-        await message.channel.send(f"https://tenor.com/view/markiplier-funny-meme-what-gif-22548813")
+    elif "i am" in user_message.lower():
+        await message.channel.send(f"hi " + user_message[-lenMessage + 5:])
+    elif "<@!746078147463741590>" in user_message:
+        if user_message == "<@!746078147463741590>":
+            await message.channel.send(username + ": Michael")
+            await message.channel.send(f"https://tenor.com/view/markiplier-funny-meme-what-gif-22548813")
+        else:
+            michaelMessage = user_message.replace("<@!746078147463741590>", "")
+            await message.channel.send(username + ": " + michaelMessage)
+        await message.delete()
+
 
         if "Recent osu! Standard Play for" in user_message:
             rand = random.randint(1, 3)
@@ -89,5 +101,21 @@ async def wysi(message):
             response = f"{username} rolled 727!!! https://tenor.com/view/aireu-727-wysi-when-you-see-it-osu-gif-21274243"
         await message.channel.send(response)
         return
+
+
+@client.command(name = "laugh")
+async def laugh(ctx):
+    voice_channel = ctx.author.channel
+    channel = None
+    if voice_channel != None:
+        channel = voice_channel.name
+        vc = await voice_channel.connect()
+        vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="https://od.lk/s/MzVfMzI1MDczMzFf/clash_royale_emoji_king_laugh_green_screen_7229389992044983017-%5BAudioTrimmer.com%5D.mp3"))
+        while vc.is_playing():
+            time.sleep(.1)
+        await vc.disconnect()
+    else:
+        await ctx.send(str(ctx.author.name) + "is not in a channel.")
+    await ctx.message.delete()
 
 client.run(TOKEN)
