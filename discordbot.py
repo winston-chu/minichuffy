@@ -19,6 +19,7 @@ async def on_ready():
 async def on_message(message):
     username = str(message.author).split('#')[0]
     user_message = str(message.content)
+    lMessage = user_message.lower()
     lenMessage = len(user_message)
     channel = str(message.channel.name)
     print(f"{username}: {user_message} ({channel})")
@@ -53,7 +54,8 @@ async def on_message(message):
     elif "ganyu" in user_message.lower():
         await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author = False)
     elif "i am" in user_message.lower():
-        await message.channel.send(f"hi " + user_message[-lenMessage + 5:])
+        name = lMessage.split("i am", 1)[1]
+        await message.channel.send(f"hi" + name)
     elif "<@!746078147463741590>" in user_message:
         if user_message == "<@!746078147463741590>":
             await message.channel.send(username + ": Michael")
