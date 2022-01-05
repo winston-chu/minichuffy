@@ -51,7 +51,7 @@ async def on_message(message):
         await message.reply(f"https://tenor.com/view/lottery-loser-rat-mouse-gif-12761681", mention_author = False)
     elif "val" in user_message.lower():
         await message.reply(f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png", mention_author = False)
-    elif "ganyu" in user_message.lower():
+    elif "ganyu" in user_message.lower() and user_message != (f"https://tenor.com/view/ganyu-flowers-eat-eating-ganyu-poggers-gif-23827527"):
         await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author = False)
     elif "i am" in user_message.lower():
         name = lMessage.split("i am", 1)[1]
@@ -66,7 +66,8 @@ async def on_message(message):
         await message.delete()
     elif "on god" in user_message.lower():
         await message.reply(f"On fracture!", mention_author = False)
-
+    elif "arcane" in user_message.lower():
+        await message.channel.send(f"https://tenor.com/view/space-launch-funny-meme-space-force-space-gif-17548362")
 
         if "Recent osu! Standard Play for" in user_message:
             rand = random.randint(1, 3)
