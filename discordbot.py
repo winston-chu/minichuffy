@@ -64,6 +64,8 @@ async def on_message(message):
             michaelMessage = user_message.replace("<@!746078147463741590>", "")
             await message.channel.send(username + ": " + michaelMessage)
         await message.delete()
+    elif "on god" in user_message.lower():
+        await message.reply(f"On fracture!", mention_author = False)
 
 
         if "Recent osu! Standard Play for" in user_message:
