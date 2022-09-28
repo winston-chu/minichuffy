@@ -3,7 +3,7 @@ import random
 import time
 from discord.ext import commands
 
-TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.YR1xvQ.CMGaozkt7gJirLw0E31KpuGhOPA"
+TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.Grr4Mk.1vreJHRndUmar0qoIUkekKbEwmc67Af8-DFPeo"
 
 client = commands.Bot(command_prefix="-")
 # client = discord.Client()
