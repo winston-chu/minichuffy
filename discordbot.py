@@ -76,12 +76,16 @@ async def on_message(message):
         # await message.delete
 
     if message.author.id == 366269406214619136:
-        emoji = "🤓"
-        await message.add_reaction(emoji)
+        await message.add_reaction("🤓")
 
     if message.author.id == 321027153489559553 and "I " == user_message[0:2].upper():
-        emoji = "👑"
-        await message.add_reaction(emoji)
+        await message.add_reaction("👑")
+        await message.add_reaction("🇬")
+        await message.add_reaction("🇴")
+        await message.add_reaction("🇦")
+        await message.add_reaction("🇹")
+        await message.add_reaction("‼")
+        await message.add_reaction("🙌")
 
     if "on god" in user_message.lower():
         await message.reply(f"On fracture!", mention_author=False)
