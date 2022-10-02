@@ -7,6 +7,8 @@ TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.Grr4Mk.1vreJHRndUmar0qoIUkekKbEwmc67Af8-DFPeo"
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="-", intents=intents)
+
+
 # client = discord.Client()
 # bot = commands.Bot(command_prefix=".")
 
@@ -14,6 +16,7 @@ client = commands.Bot(command_prefix="-", intents=intents)
 @client.event
 async def on_ready():
     print("We have logged in as {0.user}".format(client))
+    print("I am currently in", len(client.guilds), "servers.")
 
 
 @client.event
@@ -23,7 +26,7 @@ async def on_message(message):
     lMessage = user_message.lower()
     lenMessage = len(user_message)
     channel = str(message.channel.name)
-    print(f"{username}: {user_message} ({channel})")
+    print("|" + time.strftime("%H:%M:%S", time.localtime()) + f"| {username}: {user_message} ({channel})")
     mention = f'<@!{username}>'
 
     if message.author == client.user:
@@ -57,9 +60,12 @@ async def on_message(message):
         await message.reply(f"https://tenor.com/view/lottery-loser-rat-mouse-gif-12761681", mention_author=False)
 
     if "val" in user_message.lower():
-        await message.reply(f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png", mention_author=False)
+        await message.reply(
+            f"https://cdn.discordapp.com/attachments/770043097019056148/916065524172071002/D7_NFf60C-0Nd11gyqf4ulUcRZ3vATfsdkZCI5Pe6Gwiz6MB7-sObSF7H3mKGXUbwwr4Ehj7t8Urj2Ms765-nd-v1.png",
+            mention_author=False)
 
-    if "ganyu" in user_message.lower() and user_message != (f"https://tenor.com/view/ganyu-flowers-eat-eating-ganyu-poggers-gif-23827527"):
+    if "ganyu" in user_message.lower() and user_message != (
+    f"https://tenor.com/view/ganyu-flowers-eat-eating-ganyu-poggers-gif-23827527"):
         await message.reply(f"https://tenor.com/view/gigachad-genshin-keqing-gif-23205874", mention_author=False)
 
     if "i am" in user_message.lower():
@@ -105,6 +111,7 @@ async def on_message(message):
             await message.channel.send(f"that wasn't for you but ok")
     await client.process_commands(message)
 
+
 @client.command()
 async def join(message):
     channel = message.author.voice.channel
@@ -132,19 +139,30 @@ async def wysi(message):
         return
 
 
-@client.command(name = "laugh")
+@client.command()
+async def gettime(message):
+    rand = random.randint(0, 2)
+    if rand == 0:
+        await message.channel.send(time.strftime("%H:%M:%S", time.localtime()))
+    else:
+        await message.channel.send(f"It's time for you to get a watch.")
+
+
+@client.command(name="laugh")
 async def laugh(ctx):
-    voice_channel = ctx.author.channel
+    voice_channel = ctx.author.voice.channel
     channel = None
-    if voice_channel != None:
+    if voice_channel is not None:
         channel = voice_channel.name
         vc = await voice_channel.connect()
-        vc.play(discord.FFmpegPCMAudio(executable="C:/ffmpeg/bin/ffmpeg.exe", source="https://od.lk/s/MzVfMzI1MDczMzFf/clash_royale_emoji_king_laugh_green_screen_7229389992044983017-%5BAudioTrimmer.com%5D.mp3"))
-        while vc.is_playing():
-            time.sleep(.1)
+        vc.play(discord.FFmpegPCMAudio("https://od.lk/s/MzVfMzI1MDczMzFf/clash_royale_emoji_king_laugh_green_screen_7229389992044983017-%5BAudioTrimmer.com%5D.mp3"))
+        # vc.play(discord.FFmpegPCMAudio(executable="/Users/winstonchu/audio-orchestrator-ffmpeg/bin/ffmpeg", source="clash_royale_emoji_king_laugh_green_screen_7229389992044983017-[AudioTrimmer.com].mp3"))
+        # while not vc.is_done():
+        time.sleep(3)
         await vc.disconnect()
     else:
-        await ctx.send(str(ctx.author.name) + "is not in a channel.")
+        await ctx.send(str(ctx.author.name) + " is not in a channel.")
     await ctx.message.delete()
+
 
 client.run(TOKEN)
