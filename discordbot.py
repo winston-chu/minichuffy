@@ -1,13 +1,14 @@
+import asyncio
 import discord
 import random
 import time
 from discord.ext import commands
+from datetime import date, datetime, timedelta
 
 TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.Grr4Mk.1vreJHRndUmar0qoIUkekKbEwmc67Af8-DFPeo"
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="-", intents=intents)
-
 
 # client = discord.Client()
 # bot = commands.Bot(command_prefix=".")
@@ -15,9 +16,35 @@ client = commands.Bot(command_prefix="-", intents=intents)
 
 @client.event
 async def on_ready():
+    channel = client.get_channel(837090657880637461)
     print("We have logged in as {0.user}".format(client))
     print("I am currently in", len(client.guilds), "servers.")
 
+     # datetime.today().strftime("%H:%M:%S") == "17:09:00":
+     #    print("A")
+     #    await client.start(TOKEN)
+
+    with open("raptors2023.txt", "r") as raptorsSchedule:
+        hourBefore = datetime.today() + timedelta(hours=1)
+        for line in raptorsSchedule:
+            day, team, location, hour = line.split()
+
+            if day == str(date.today()):
+                while hour != str(hourBefore.strftime("%H:%M")):
+                    hourBefore = datetime.today() + timedelta(hours=1)
+                    await asyncio.sleep(1)
+                msg = "The Raptors are facing the " + str(team) + " (" + str(location) + ") in one hour. Do you think they will win or lose?"
+                message = await channel.send(msg)
+                await message.add_reaction("✅")
+                await message.add_reaction("❌")
+                with open("raptors2023.txt", "r") as oldSched:
+                    data = oldSched.read().splitlines(True)
+                with open("raptors2023.txt", "w") as newSched:
+                    newSched.writelines(data[1:])
+
+    # if datetime.today().strftime("%H:%M") == "00:00":
+    #     print("A")
+    #     await client.start(TOKEN)
 
 @client.event
 async def on_message(message):
@@ -106,7 +133,7 @@ async def on_message(message):
     if "choke" in user_message.lower():
         await message.channel.send(f"https://tenor.com/view/gene-issue-gif-22947786")
 
-    if message.channel.name == "the-mgg-channel-and-no-mic":
+    if message.channel.name == "aaa":
         if "thank you" in user_message.lower() or "thanks" in user_message.lower():
             await message.channel.send(f"that wasn't for you but ok")
     await client.process_commands(message)
@@ -156,13 +183,48 @@ async def laugh(ctx):
         channel = voice_channel.name
         vc = await voice_channel.connect()
         vc.play(discord.FFmpegPCMAudio("https://od.lk/s/MzVfMzI1MDczMzFf/clash_royale_emoji_king_laugh_green_screen_7229389992044983017-%5BAudioTrimmer.com%5D.mp3"))
-        # vc.play(discord.FFmpegPCMAudio(executable="/Users/winstonchu/audio-orchestrator-ffmpeg/bin/ffmpeg", source="clash_royale_emoji_king_laugh_green_screen_7229389992044983017-[AudioTrimmer.com].mp3"))
-        # while not vc.is_done():
         time.sleep(3)
         await vc.disconnect()
     else:
         await ctx.send(str(ctx.author.name) + " is not in a channel.")
     await ctx.message.delete()
+
+
+@client.command()
+async def sched(message, num="5"):
+    d = []
+    t = []
+    l = []
+    h = []
+    msg = ""
+
+    with open("raptors2023.txt", "r") as raptorsSchedule:
+        for line in raptorsSchedule:
+            day, team, location, hour = line.split()
+            d.append(day)
+            t.append(team)
+            l.append(location)
+            h.append(hour)
+
+        try:
+            print(t[int(num) - 1])
+        except IndexError:
+            await message.channel.send(f"The Raptors don't have that amount of games left this season.")
+            return
+        except ValueError:
+            await message.channel.send(f"Please enter a valid number.")
+            return
+
+        if int(num) >= 26:
+            await message.channel.send(f"25 is the max number.")
+            num = str(25)
+
+        embedVar = discord.Embed(title="Raptors' next " + num + " game(s):", description="", color=0xFF9900)
+        for i in range(int(num)):
+            embedVar.add_field(name=str(t[i]) + " (" + str(l[i]) + ")", value="On " + str(d[i]) + " at " + str(h[i]), inline=False)
+
+        await message.channel.send(embed=embedVar)
+
 
 
 client.run(TOKEN)
