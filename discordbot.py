@@ -33,8 +33,14 @@ async def on_ready():
                 while hour != str(hourBefore.strftime("%H:%M")):
                     hourBefore = datetime.today() + timedelta(hours=1)
                     await asyncio.sleep(1)
-                msg = "The Raptors are facing the " + str(team) + " (" + str(location) + ") in one hour. Do you think they will win or lose?"
-                message = await channel.send(msg)
+
+                embedVar = discord.Embed(title="Toronto Raptors Game Day", description="Facing the " + str(team) + " (" + str(location) + ") in one hour.", color=0xFF9900)
+                embedVar.add_field(name="Do you think they can win?", value="React with your prediction.", inline=False)
+
+                message = await channel.send(embed=embedVar)
+
+                # msg = "The Raptors are facing the " + str(team) + " (" + str(location) + ") in one hour. Do you think they will win or lose?"
+                # message = await channel.send(msg)
                 await message.add_reaction("✅")
                 await message.add_reaction("❌")
                 with open("raptors2023.txt", "r") as oldSched:
@@ -53,7 +59,7 @@ async def on_message(message):
     lMessage = user_message.lower()
     lenMessage = len(user_message)
     channel = str(message.channel.name)
-    print("|" + time.strftime("%H:%M:%S", time.localtime()) + f"| {username}: {user_message} ({channel})")
+    print("[" + time.strftime("%H:%M:%S", time.localtime()) + f"] {username}: {user_message} ({channel})")
     mention = f'<@!{username}>'
 
     if message.author == client.user:
@@ -177,6 +183,7 @@ async def gettime(message):
 
 @client.command(name="laugh")
 async def laugh(ctx):
+    await ctx.message.delete()
     voice_channel = ctx.author.voice.channel
     channel = None
     if voice_channel is not None:
@@ -187,7 +194,7 @@ async def laugh(ctx):
         await vc.disconnect()
     else:
         await ctx.send(str(ctx.author.name) + " is not in a channel.")
-    await ctx.message.delete()
+
 
 
 @client.command()
@@ -224,7 +231,6 @@ async def sched(message, num="5"):
             embedVar.add_field(name=str(t[i]) + " (" + str(l[i]) + ")", value="On " + str(d[i]) + " at " + str(h[i]), inline=False)
 
         await message.channel.send(embed=embedVar)
-
 
 
 client.run(TOKEN)
