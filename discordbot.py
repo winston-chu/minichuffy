@@ -8,8 +8,6 @@ from datetime import date, datetime, timedelta
 from dotenv import load_dotenv
 load_dotenv()
 
-# TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.G8WM1M.wsAU-C7E5tMPmGV2TIUSPJg7AGOLdvyelGNZNQ"
-
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="-", intents=intents)
 
