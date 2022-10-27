@@ -55,6 +55,7 @@ async def on_ready():
     #     print("A")
     #     await client.start(TOKEN)
 
+
 @client.event
 async def on_message(message):
     username = str(message.author).split('#')[0]
