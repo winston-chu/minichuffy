@@ -2,10 +2,13 @@ import asyncio
 import discord
 import random
 import time
+import os
 from discord.ext import commands
 from datetime import date, datetime, timedelta
+from dotenv import load_dotenv
+load_dotenv()
 
-TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.Grr4Mk.1vreJHRndUmar0qoIUkekKbEwmc67Af8-DFPeo"
+# TOKEN = "ODc3NjU0ODEzMDkxOTU0NzE4.G8WM1M.wsAU-C7E5tMPmGV2TIUSPJg7AGOLdvyelGNZNQ"
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="-", intents=intents)
@@ -58,7 +61,10 @@ async def on_message(message):
     user_message = str(message.content)
     lMessage = user_message.lower()
     lenMessage = len(user_message)
-    channel = str(message.channel.name)
+    if message.guild:
+        channel = str(message.channel.name)
+    else:
+        return
     print("[" + time.strftime("%H:%M:%S", time.localtime()) + f"] {username}: {user_message} ({channel})")
     mention = f'<@!{username}>'
 
@@ -144,6 +150,12 @@ async def on_message(message):
             await message.channel.send(f"that wasn't for you but ok")
     await client.process_commands(message)
 
+
+# make a hangman game where one player dms a word and others guess it
+@client.command()
+async def hangman(message):
+    channel = await message.author.create_dm()
+    await channel.send(embed = discord.Embed(title="Welcome to Hangman!", description="Please enter your word.", color=0xFF9900))
 
 @client.command()
 async def join(message):
@@ -233,4 +245,8 @@ async def sched(message, num="5"):
         await message.channel.send(embed=embedVar)
 
 
-client.run(TOKEN)
+
+
+
+
+client.run(os.getenv("TOKEN"))
