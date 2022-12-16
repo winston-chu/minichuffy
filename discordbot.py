@@ -7,10 +7,14 @@ import string
 from discord.ext import commands
 from datetime import date, datetime, timedelta
 from dotenv import load_dotenv
+import interactions
+
 load_dotenv()
 
 intents = discord.Intents.all()
 client = commands.Bot(command_prefix="-", intents=intents)
+bot = interactions.Client(token=os.getenv("TOKEN"))
+
 
 # client = discord.Client()
 # bot = commands.Bot(command_prefix=".")
@@ -19,12 +23,18 @@ client = commands.Bot(command_prefix="-", intents=intents)
 @client.event
 async def on_ready():
 
+    await client.change_presence(activity=discord.Game('Overwatch 4'))
+
     print("We have logged in as {0.user}".format(client))
     print("I am currently in", len(client.guilds), "servers.")
 
      # datetime.today().strftime("%H:%M:%S") == "17:09:00":
      #    print("A")
      #    await client.start(TOKEN)
+
+
+
+
 
 @client.event
 async def raptors_games():
@@ -67,6 +77,8 @@ async def on_message(message):
         lenMessage = len(user_message)
 
         channel = str(message.channel.name)
+
+        await client.change_presence(activity=discord.Game('Overwatch ' + str(random.randint(0, 1000000))))
 
         print("[" + time.strftime("%H:%M:%S", time.localtime()) + f"] {username}: {user_message} ({channel})")
         mention = f'<@!{username}>'
@@ -124,7 +136,8 @@ async def on_message(message):
             # await message.delete
 
         if message.author.id == 366269406214619136:
-            await message.add_reaction("🤓")
+            if random.randint(0, 9) == 5:
+                await message.add_reaction("🤓")
 
         if message.author.id == 321027153489559553 and "I " == user_message[0:2].upper():
             await message.add_reaction("👑")
@@ -261,6 +274,8 @@ async def on_message(message):
             await message.channel.send(embed = endGame)
 
 
+
+
 @client.command()
 async def join(message):
     channel = message.author.voice.channel
@@ -350,7 +365,15 @@ async def sched(message, num="5"):
 
 
 
+@bot.command(
+    name="my_first_command",
+    description="This is the first command I made!",
+    scope=548550180807376921,
+)
+async def my_first_command(ctx: interactions.CommandContext):
+    await ctx.send("Hi there!")
 
 
 
+# bot.start()
 client.run(os.getenv("TOKEN"))
